@@ -46,7 +46,7 @@ deb http://mirrors.aliyun.com/ubuntu/ jammy-security main restricted universe mu
 - basic
   - sudo apt update && sudo apt upgrade -y
     - "when setting is not responding": sudo systemctl restart gdm (gnome)
-  - sudo apt install gnome-tweaks tree git curl -y
+  - sudo apt install gnome-tweaks tree git(~/.gitconfig) curl -y        ----------down----------
   
 - ssh
   - sudo apt install openssh-server -y 
@@ -203,20 +203,42 @@ VMWARE 16.x
 ZF3R0-FHED2-M80TY-8QYGC-NPKYF
 Z1ZPR-EDGQN-M1JE9-HYFGX-YPGEX
 
+- mutt and lei : lei download email -> Mutt read and replay email -> git send-email send-email
+  - lei:
+    - sudo apt update
+    - sudo apt install -y \
+      vim wget curl git build-essential pkg-config \
+      libgit2-dev xapian-tools \
+      libinline-c-perl libany-uri-escape-perl \
+      libdbd-sqlite3-perl libsearch-xapian-perl \
+      libmail-imapclient-perl libplack-middleware-reverseproxy-perl \
+      libcrypt-cbc-perl liblinux-inotify2-perl
+    - wget https://public-inbox.org/public-inbox.git/snapshot/public-inbox-1.9.0.tar.gz
+    - tar zxvf public-inbox-1.9.0.tar.gz && cd public-inbox-1.9.0
+    - perl Makefile.PL INSTALLDIRS=vendor
+    - make -j$(nproc)
+    - sudo make install
 
+  - Mutt:
+    - sudo apt install mutt
+    - touch ~/.muttrc : ----------down----------
+    - config proxy:
+      - sudo apt install proxychains4 
+      - sudo nvim /etc/proxychains4.conf
+        - change "socks4 	127.0.0.1 9050" to "socks5 	127.0.0.1 7897"
+    - -f: open specify dir to read
+  - example:
+    - lei q -o ~/Mail/CTF2301/ --threads -I https://lore.kernel.org/all s:"hwmon" f:"Guenter" t:"troy"
+    - lei q -o ~/Mail/linux-i2s --threads -I https://lore.kernel.org/all s:"ASoC: spacemit: add i2s support for K1 SoC" f:"troy"
 
-
-
-
-
-
-
-
+- PLCT-nextcloud
+  - alias mysync="nextcloudcmd -s --user 'GoKo-Son626' --password 'riscv0315!' ${HOME}/nextcloud/rvlk-cloud https://rvlk.onfoo.top/nextcloud"
 
 
 ------------------------------ **config-file:** -------------------------------
   - ~/.gitconfig
   - ~/.config/lei/config
+  - ~/.muttrc
 
 ~/.gitconfig
 ```bash
@@ -226,7 +248,7 @@ Z1ZPR-EDGQN-M1JE9-HYFGX-YPGEX
 	name = Goko Son
 	email = goku.sonxin626@gmail.com
 [sendemail]
-	smtppass = tciwjdbwyltanbkh
+	smtppass = 
 	smtpserver = smtp.gmail.com
 	smtpuser = goku.sonxin626@gmail.com
 	smtpencryption = tls
@@ -248,27 +270,84 @@ Z1ZPR-EDGQN-M1JE9-HYFGX-YPGEX
 	proxy = http://127.0.0.1:7897
 ```
 
+~/.config/lei/config
+```bash 
+[leistore]
+        dir = /home/goko/.local/share/lei/store
+```
 
+~/.muttrc
+```bash 
+# MAP ====================
+set imap_user = goku.sonxin626@gmail.com
+set imap_pass = odljwxogkpvuxdnx
 
+set spoolfile = imaps://imap.gmail.com/INBOX
+set folder = imaps://imap.gmail.com/
+set record="imaps://imap.gmail.com/[Gmail]/Sent Mail"
+set postponed="imaps://imap.gmail.com/[Gmail]/Drafts"
+set mbox="imaps://imap.gmail.com/[Gmail]/All Mail"
+set header_cache = "~/.mutt/cache/headers"
+set message_cachedir = "~/.mutt/cache/bodies"
+set certificate_file = "~/.mutt/certificates"`
 
+# ================  Composition  ====================
+set editor = "nvim"      # Set your favourite editor.
+set edit_headers = yes  # See the headers when editing
+set charset = UTF-8     # value of $LANG; also fallback for send_charset
 
+# ================  MSMTP ====================
+# I use msmtp to send. It depends on you.
+set sendmail = "/usr/bin/msmtp"
+set realname = "Goko Son"
+set from = "goku.sonxin626@gmail.com"
+set use_from = "yes"
+set envelope_from = "yes"
 
+# ================  SMTP  ====================
+#set smtp_url = "smtp://goku.sonxin626@smtp.gmail.com:587/"
+#set smtp_pass = $imap_pass
+#set ssl_force_tls = yes # Require encrypted connection
 
+# Status Bar -----------------------------------------
+set status_chars  = " *%A"
+set status_format = "───[ Folder: %f ]───[%r%m messages%?n? (%n new)?%?d? (%d to delete)?%?t? (%t tagged)? ]───%>─%?p?( %p postponed )?───"
 
+# sort--------------
+set sort = threads
+set sort_aux = reverse-last-date-received
 
+# bind------
+bind index g group-chat-reply
 
+# 让 pager 里 j/k 正常上下移动
+bind pager j next-line
+bind pager k previous-line
 
+# 在 pager 界面，- 和 = 控制上一封/下一封邮件
+bind pager - previous-entry
+bind pager = next-entry
 
+# 把 <Backspace> 映射为 previous-page
+bind pager <Backspace> previous-page
 
+# config---
+# 每次发送邮件时将自己加入 CC 字段
+set metoo=yes
+my_hdr Cc: "Goko Son" <goku.sonxin626@gmail.com>
 
+# use nvim to read email
+set pager="nvim -"
 
+# check email every 60s
+set mail_check=60
 
+auto_view text/html
+alternative_order text/plain text/enriched text/html
 
-
-
-
-
-
-
+ignore *
+unignore From: Date: To: Cc: Subject: Reply-To: List-ID: Message-ID: In-Reply-To:
+hdr_order From: Date: To: Cc: Subject: Reply-To: List-ID: Message-ID: In-Reply-To:
+```
 
 
