@@ -234,6 +234,20 @@ Z1ZPR-EDGQN-M1JE9-HYFGX-YPGEX
 - PLCT-nextcloud
   - alias mysync="nextcloudcmd -s --user 'GoKo-Son626' --password 'riscv0315!' ${HOME}/nextcloud/rvlk-cloud https://rvlk.onfoo.top/nextcloud"
 
+- STM32f103zet6 env: ubuntu 22.04 + ST-Link/V2 仿真器(烧录到SMT8/32的Flash中)
+  - sudo apt update
+  - sudo apt install gcc-arm-none-eabi gdb-multiarch make # 交叉编译器 调试器 构建工具 
+  - sudo apt install openocd # 烧录/调试软件
+  - OK -> github:GoKo-Son626:ubuntu-STM32F103
+
+- STM32CubeMX:
+  - The official website download .zip and unzip 
+  - sudo apt update
+  - sudo apt install default-jre 
+  - unzip stm32cubemx-lin-v6-15-0.zip
+  - chmod +x SetupSTM32CubeMX-6.15.0
+  - ./SetupSTM32CubeMX-6.15.0
+
 
 ------------------------------ **config-file:** -------------------------------
   - ~/.gitconfig
