@@ -248,6 +248,36 @@ Z1ZPR-EDGQN-M1JE9-HYFGX-YPGEX
   - chmod +x SetupSTM32CubeMX-6.15.0
   - ./SetupSTM32CubeMX-6.15.0
 
+- Input_Leap:(ubuntu 22.04) - commit ea6b4eb8db7d878cdaa2d528f64db6c344e98067 
+  - sudo apt update
+  - sudo apt install -y git cmake g++ libssl-dev
+  - sudo apt install -y qt6-base-dev qt6-tools-dev qt6-tools-dev-tools
+  - sudo apt install -y libavahi-compat-libdnssd-dev
+  - sudo apt install -y \
+    libx11-dev \
+    libxext-dev \
+    libxrandr-dev \
+    libxinerama-dev \
+    libxtst-dev \
+    libxi-dev
+  - sudo apt install -y libice-dev libsm-dev
+  - sudo mkdir -p /usr/lib/qt6/bin
+  - sudo ln -sf /usr/bin/lrelease /usr/lib/qt6/bin/lrelease
+  - sudo ln -sf /usr/bin/lconvert /usr/lib/qt6/bin/lconvert
+  - sudo ln -sf /usr/bin/lupdate /usr/lib/qt6/bin/lupdate
+  - sudo apt install -y libxkbfile-dev
+  - sudo mkdir -p /usr/lib/qt6/libexec
+  - sudo ln -sf /usr/bin/lrelease /usr/lib/qt6/libexec/lrelease-pro
+  - sudo ln -sf /usr/bin/lupdate  /usr/lib/qt6/libexec/lupdate-pro
+  - sudo ln -sf /usr/bin/lconvert /usr/lib/qt6/libexec/lconvert
+  - git clone https://github.com/GoKo-Son626/input-leap.git
+  - git submodule update --init --recursive
+  - cd input-leap
+  - cmake ..
+  - make -j(nproc)
+
+
+
 
 ------------------------------ **config-file:** -------------------------------
   - ~/.gitconfig
