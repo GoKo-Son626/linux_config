@@ -218,6 +218,7 @@ Z1ZPR-EDGQN-M1JE9-HYFGX-YPGEX
     - perl Makefile.PL INSTALLDIRS=vendor
     - make -j$(nproc)
     - sudo make install
+    - vi ~/.config/lei/config # ----------down----------
 
   - Mutt:
     - sudo apt install mutt
@@ -293,11 +294,29 @@ Z1ZPR-EDGQN-M1JE9-HYFGX-YPGEX
   - make -j$(nproc)
   - sudo make install
 
+- use b4 and smtp send patch to linux-kernel 
+  - sudo apt install b4 msmtp git-email 
+  - nvim ~/.msmtprc
+  - send patch (current path: repository)
+    - b4 prep -n patch-branch_name
+    - nvim -> git add -> git commit -s:(subject + )
+    - b4 prep --edit-cover # subject + 
+    - b4 prep --auto-to-cc
+    - b4 prep --check
+      - when error 
+        - nvim -> git add
+    - b4 prep --check
+    - b4 send --preview-to goku.sonxin626@gmail.com # send own
+    - b4 send -o > ../preview/ # store to review 
+    - **b4 send** # send to kernel
+    - test : 
+      - echo -e "Subject: Test\n\nHello Gmail" msmtp --debug -a gmail goku.sonxin626@gmail.com
 
 ------------------------------ **config-file:** -------------------------------
   - ~/.gitconfig
   - ~/.config/lei/config
   - ~/.muttrc
+  - ~/.msmtprc
 
 ~/.gitconfig
 ```bash
@@ -409,4 +428,24 @@ unignore From: Date: To: Cc: Subject: Reply-To: List-ID: Message-ID: In-Reply-To
 hdr_order From: Date: To: Cc: Subject: Reply-To: List-ID: Message-ID: In-Reply-To:
 ```
 
+~/.msmtprc
+```c
+# set defaults
+defaults
+auth           on
+tls            on
+tls_trust_file /etc/ssl/certs/ca-certificates.crt
+logfile        ~/.msmtp.log
+
+# Gmail account
+account        gmail
+host           smtp.gmail.com
+port           587
+from           goku.sonxin626@gmail.com
+user           goku.sonxin626@gmail.com
+password       
+
+# Set a default account
+account default : gmail
+```
 
