@@ -277,7 +277,21 @@ Z1ZPR-EDGQN-M1JE9-HYFGX-YPGEX
   - make -j(nproc)
   - sudo make install
 
-
+- Input_Leap:(Debian 12.07) - commit ea6b4eb8db7d878cdaa2d528f64db6c344e98067 
+  - sudo apt install -y build-essential camke git pkg-config curl
+  - sudo apt install -y \
+    qt6-base-dev qt6-base-dev-tools qt6-tools-dev qt6-tools-dev-tools qmake6 qmake6-bin \
+    libavahi-compat-libdnssd-dev \
+    libx11-dev libxext-dev libxrandr-dev libxinerama-dev libxtst-dev libxi-dev libxrender-dev libxfixes-dev \
+    libice-dev libsm-dev libxkbfile-dev \
+    libssl-dev libopengl-dev libvulkan-dev
+  - git clone https://github.com/input-leap/input-leap.git
+  - cd input-leap
+  - git submodule update --init --recursive
+  - mkdir -p build && cd build
+  - cmake ..
+  - make -j$(nproc)
+  - sudo make install
 
 
 ------------------------------ **config-file:** -------------------------------
