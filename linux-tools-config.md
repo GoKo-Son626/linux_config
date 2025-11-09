@@ -275,6 +275,7 @@ Z1ZPR-EDGQN-M1JE9-HYFGX-YPGEX
   - cd input-leap
   - cmake ..
   - make -j(nproc)
+  - sudo make install
 
 
 
