@@ -1,6 +1,6 @@
 # Ubuntu 22.04.5
 
-- su: passward
+- su: password
   - sudo passwd root
   
 - proxy
@@ -23,15 +23,15 @@ deb http://mirrors.aliyun.com/ubuntu/ jammy-security main restricted universe mu
 - apt source(debian 12.07)
   - sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
   - sudo bash -c 'cat > /etc/apt/sources.list << "EOF"
-    deb http://mirrors.aliyun.com/debian/ bookworm main contrib non-free non-free-firmware
-    deb-src http://mirrors.aliyun.com/debian/ bookworm main contrib non-free non-free-firmware
-    deb http://mirrors.aliyun.com/debian-security bookworm-security main contrib non-free non-free-firmware
-    deb-src http://mirrors.aliyun.com/debian-security bookworm-security main contrib non-free non-free-firmware
-    deb http://mirrors.aliyun.com/debian/ bookworm-updates main contrib non-free non-free-firmware
-    deb-src http://mirrors.aliyun.com/debian/ bookworm-updates main contrib non-free non-free-firmware
-    deb http://mirrors.aliyun.com/debian/ bookworm-backports main contrib non-free non-free-firmware
-    deb-src http://mirrors.aliyun.com/debian/ bookworm-backports main contrib non-free non-free-firmware
-    EOF'
+deb http://mirrors.aliyun.com/debian/ bookworm main contrib non-free non-free-firmware
+deb-src http://mirrors.aliyun.com/debian/ bookworm main contrib non-free non-free-firmware
+deb http://mirrors.aliyun.com/debian-security bookworm-security main contrib non-free non-free-firmware
+deb-src http://mirrors.aliyun.com/debian-security bookworm-security main contrib non-free non-free-firmware
+deb http://mirrors.aliyun.com/debian/ bookworm-updates main contrib non-free non-free-firmware
+deb-src http://mirrors.aliyun.com/debian/ bookworm-updates main contrib non-free non-free-firmware
+deb http://mirrors.aliyun.com/debian/ bookworm-backports main contrib non-free non-free-firmware
+deb-src http://mirrors.aliyun.com/debian/ bookworm-backports main contrib non-free non-free-firmware
+EOF'
 
 - wifi reinstall
   - sudo apt --fix-broken install 
@@ -87,8 +87,8 @@ deb http://mirrors.aliyun.com/ubuntu/ jammy-security main restricted universe mu
 
 - ssh-key
   - ssh-keygen -t rsa -b 4096 -C "goku.sonxin626@gmail.com"
-    - 密-key: ~/.ssh/id_isa
-    - pub-key: ~/.ssh/id_isa.pub : **add to github**
+    - 密-key: ~/.ssh/id_rsa
+    - pub-key: ~/.ssh/id_rsa.pub : **add to github**
   - Add ssh into ssh-agent
     - eval "$(ssh-agent -s)" : "Starts ssh-agent and sets environment variables"
     - ssh-add ~/.ssh/id_rsa  : "Loads your private key into it"
@@ -105,7 +105,7 @@ deb http://mirrors.aliyun.com/ubuntu/ jammy-security main restricted universe mu
   - sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.10 1
     - Map the command `/usr/bin/python` to `python3.10`, so that executing `python` will use Python version 3.10 (for compatibility with some plugins).
   - export NVM_DIR=/root/.nvm
-  - wget -q0 https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | zsh : **"download and run NVM-install-script, NVM:best to install the Node.js, also for neovim"**
+  - wget -qO https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | zsh : **"download and run NVM-install-script, NVM:best to install the Node.js, also for neovim"**
 
 - nextcloud
   - sudo add-apt-repository ppa:nextcloud-devs/client 
@@ -160,7 +160,6 @@ deb http://mirrors.aliyun.com/ubuntu/ jammy-security main restricted universe mu
   - sudo apt-get install libncurses5-dev
   - sudo apt-get install libexpat1-dev
   - sudo apt-get install libgmp-dev libmpfr-dev libmpc-dev
-  - sudo apt-get install libgmp-dev libmpfr-dev libmpc-dev
   - git clone --recursive https://github.com/riscv/riscv-gnu-toolchain
     - check: git submodule status
       - ex: gcc: 
@@ -172,8 +171,8 @@ deb http://mirrors.aliyun.com/ubuntu/ jammy-security main restricted universe mu
   - sudo time make linux -j$(nproc)
   - ~/.zshrc:
     export ARCH="riscv"
-    export CROSS_COMPILE="/repo/gnu-bin/bin/riscv64-unknown-linux-gnu-"
-    export PATH="/repo/gnu-bin/bin:$PATH"  # 确保优先使用自编译工具链
+    export CROSS_COMPILE="$HOME/repo/gnu-bin/bin/riscv64-unknown-linux-gnu-"
+    export PATH="$HOME/repo/gnu-bin/bin:$PATH"  # 确保优先使用自编译工具链
 
 - update git-repo 
   - 拉取远程最新的 main 分支覆盖本地 main 分支：⚠️ 注意：以下操作会丢弃本地 main 分支的修改
@@ -275,11 +274,11 @@ Z1ZPR-EDGQN-M1JE9-HYFGX-YPGEX
   - git submodule update --init --recursive
   - cd input-leap
   - cmake ..
-  - make -j(nproc)
+  - make -j$(nproc)
   - sudo make install
 
 - Input_Leap:(Debian 12.07) - commit ea6b4eb8db7d878cdaa2d528f64db6c344e98067 
-  - sudo apt install -y build-essential camke git pkg-config curl
+  - sudo apt install -y build-essential cmake git pkg-config curl
   - sudo apt install -y \
     qt6-base-dev qt6-base-dev-tools qt6-tools-dev qt6-tools-dev-tools qmake6 qmake6-bin \
     libavahi-compat-libdnssd-dev \
@@ -311,6 +310,14 @@ Z1ZPR-EDGQN-M1JE9-HYFGX-YPGEX
     - **b4 send** # send to kernel
     - test : 
       - echo -e "Subject: Test\n\nHello Gmail" msmtp --debug -a gmail goku.sonxin626@gmail.com
+
+- qemu_latest: https://gitlab.com/qemu-project/qemu.git
+  - basic-package
+  - sudo python3 -m pip install --upgrade pip setuptools wheel \
+    tomli tomli_w cffi pycparser
+
+
+
 
 ------------------------------ **config-file:** -------------------------------
   - ~/.gitconfig
@@ -367,7 +374,7 @@ set postponed="imaps://imap.gmail.com/[Gmail]/Drafts"
 set mbox="imaps://imap.gmail.com/[Gmail]/All Mail"
 set header_cache = "~/.mutt/cache/headers"
 set message_cachedir = "~/.mutt/cache/bodies"
-set certificate_file = "~/.mutt/certificates"`
+set certificate_file = "~/.mutt/certificates"
 
 # ================  Composition  ====================
 set editor = "nvim"      # Set your favourite editor.
